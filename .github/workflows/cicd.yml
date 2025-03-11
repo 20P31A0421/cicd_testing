@@ -38,4 +38,9 @@ jobs:
           cat report.md report1.md >> combined_file.md
           cml comment create combined_file.md
 
+          git add .github/workflows/cicd.yml
+          git commit -m "Updated CICD workflow with debugging"
+          git push origin main
+
+
 
