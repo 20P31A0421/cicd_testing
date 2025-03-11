@@ -3,7 +3,7 @@ permissions:
   id-token: write
   contents: write
 
-on: push
+on: push  # Runs workflow when you push changes
 
 jobs:
   run:
@@ -12,16 +12,22 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set up CML
-        uses: iterative/setup-cml@v1
+      - name: Debug File Structure  # ✅ Check if requirements.txt exists
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "List of files:"
+          ls -R
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt  # Change if inside a folder
+      - name: Install dependencies  # ✅ Ensure requirements.txt path is correct
+        run: pip install -r requirements.txt  # Change path if inside a folder
 
       - name: Train model
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          python train_model.py  # ✅ Run your model training script
+          
           echo "RF and LR Model Score" > report.md
           cat scores.txt
 
@@ -31,4 +37,5 @@ jobs:
 
           cat report.md report1.md >> combined_file.md
           cml comment create combined_file.md
+
 
